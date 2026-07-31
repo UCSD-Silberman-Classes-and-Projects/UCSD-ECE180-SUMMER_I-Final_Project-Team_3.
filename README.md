@@ -224,7 +224,9 @@ Start the Demucs server (`python demucs_server.py`) and launch the App Lab app. 
 
 ## Restoring the Project on a New Board
 
-If you need to set up the project on a fresh Uno Q from `unoq_project_backup.tar.gz` (containing `ArduinoApps/`, `demucs-env/`, `demucs_server.py`, `requirements.txt`, `uploads/`, and `separated/`):
+**Download the backup:** [unoq_project_backup.tar.gz (Google Drive)](https://drive.google.com/file/d/1VhwF-bbFnjsz2kegRBSiR_RpDgHN-fi_/view?usp=sharing)
+
+If you need to set up the project on a fresh Uno Q from this backup (containing `ArduinoApps/`, `demucs-env/`, `demucs_server.py`, `requirements.txt`, `uploads/`, and `separated/`):
 
 1. Connect the Uno Q and get it on the same network as your computer.
 2. Find the board's IP with `hostname -I`.
