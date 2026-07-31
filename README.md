@@ -16,10 +16,11 @@
 8. [Hardware](#hardware)
 9. [Repo Contents](#repo-contents)
 10. [Setup / Usage](#setup--usage)
-11. [Restoring the Project on a New Board](#restoring-the-project-on-a-new-board)
-12. [If We Had Another Week](#if-we-had-another-week)
-13. [Acknowledgements](#acknowledgements)
-14. [Contacts](#contacts)
+11. [Troubleshooting](#troubleshooting)
+12. [Restoring the Project on a New Board](#restoring-the-project-on-a-new-board)
+13. [If We Had Another Week](#if-we-had-another-week)
+14. [Acknowledgements](#acknowledgements)
+15. [Contacts](#contacts)
 
 <hr>
 
@@ -157,24 +158,67 @@ See [Side View](https://drive.google.com/file/d/1why-yrY0hsEtVmtkVGPhBQCBYVUqeQC
 | `demucs_server.py` *(Linux-side, separate from this App Lab project)* | Flask server that watches the USB drive for a new song, runs Demucs 4.1.0, and exposes `/status` and `/download/<stem>` endpoints. |
 | `usb_song_test.py` *(Linux-side)* | Small test/debug script — reads `/home/arduino/current_song.txt` and confirms whether the referenced song file actually exists on the USB drive. |
 | `usb_demucs_test.py` *(Linux-side)* | Small test/debug script — runs Demucs directly on a hardcoded USB song path (`/mnt/usb/sound.wav`) to verify Demucs works standalone, outside the full server pipeline. |
+| `local_demucs_test.py` *(Linux-side)* | Test/debug script for running Demucs on a local (non-USB) file. |
+<!-- TODO: add local_demucs_test.py to the repo — referenced in the setup guide but not yet uploaded -->
 
 <hr>
 
 ## Setup / Usage
 
-1. Flash the sketch in `sketch/` to the STM32 side of the Uno Q via App Lab.
-2. Set up the Python virtual environment on the Linux side and install the Demucs server's dependencies:
-   ```bash
-   python3 -m venv demucs-env
-   source demucs-env/bin/activate
-   pip install -r requirements.txt
-   ```
-3. Run the Demucs server:
-   ```bash
-   python demucs_server.py
-   ```
-4. Load and run this App Lab project (installs `python/requirements.txt` automatically).
-5. Insert a USB flash drive with a song — separation starts automatically. Use the buttons to mute/unmute stems, press Finalize to build the mix, and Play/Pause to listen.
+### 1. Set up the Python virtual environment (Linux side of the Uno Q)
+
+```bash
+python3 -m venv ~/demucs-env
+source ~/demucs-env/bin/activate
+pip install --upgrade pip
+pip install demucs
+pip install torch torchaudio
+pip install soundfile numpy scipy pygame requests
+```
+
+### 2. Create the required directories
+
+```bash
+mkdir ~/uploads
+mkdir ~/separated
+mkdir ~/usb_import
+```
+
+### 3. Copy the Linux-side scripts
+
+Copy `demucs_server.py`, `usb_song_test.py`, `usb_demucs_test.py`, and `local_demucs_test.py` into the Arduino user's home directory (`/home/arduino/`).
+
+### 4. Prepare the USB flash drive
+
+Format it as **FAT32** and place one supported audio file on it (`.wav`, `.mp3`, or `.flac`).
+
+### 5. Flash the sketch and deploy the App Lab project
+
+Flash `sketch/sketch.ino` to the STM32 side via App Lab, then import/deploy the App Lab project (`app.yaml`, `python/`, `assets/`) to the Uno Q.
+
+### 6. Run it
+
+Start the Demucs server (`python demucs_server.py`) and launch the App Lab app. Insert the USB drive — separation starts automatically. Use the buttons to mute/unmute stems, press Finalize to build the mix, and Play/Pause to listen.
+
+<hr>
+
+## Troubleshooting
+
+**USB not detected**
+- Run `lsblk` to confirm the drive shows up.
+- Reinsert the drive or try another one.
+- Confirm it's formatted as FAT32.
+- If it still doesn't auto-mount: `sudo mkdir -p /mnt/usb && sudo mount /dev/sda1 /mnt/usb` (replace `sda1` with the correct device from `lsblk`).
+
+**No stems created**
+- Check `find ~/separated` for output.
+- Confirm the audio file is readable and Demucs is installed inside `demucs-env`.
+- Check the terminal for Python errors.
+
+**Display frozen**
+- Restart the App Lab application.
+- Verify the display's ribbon/SPI connection is firmly seated.
+- Confirm `set_display()` is still being called from `poll_buttons()`.
 
 <hr>
 
