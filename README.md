@@ -3,6 +3,7 @@
 #### <div align="center">Team #3 — Summer Session I 2026</div>
 
 **Photos:** [Front View](https://drive.google.com/file/d/1DdtovpZk14N7O1HgtoTwd-P9sjlYPKgB/view?usp=sharing) | [Side View](https://drive.google.com/file/d/1why-yrY0hsEtVmtkVGPhBQCBYVUqeQCW/view?usp=sharing) | [Back View](https://drive.google.com/file/d/10IjpwqsGlS_dRstfoKWQImvOjWGpgrZu/view?usp=sharing)
+<!-- TODO: for photos to display inline instead of as links, upload them directly into the repo (e.g. docs/media/) and swap these links for ![Front View](docs/media/front.jpg) etc. -->
 
 ## Table of Contents
 1. [Team Members](#team-members)
@@ -139,6 +140,7 @@ The system splits work across the Uno Q's two processors:
 - 3D-printed enclosure
 
 See [Side View](https://drive.google.com/file/d/1why-yrY0hsEtVmtkVGPhBQCBYVUqeQCW/view?usp=sharing) and [Back View](https://drive.google.com/file/d/10IjpwqsGlS_dRstfoKWQImvOjWGpgrZu/view?usp=sharing) above for the internal wiring layout.
+<!-- TODO: add a dedicated circuit/wiring diagram if you have one, separate from the enclosure photos -->
 
 <hr>
 
@@ -153,6 +155,8 @@ See [Side View](https://drive.google.com/file/d/1why-yrY0hsEtVmtkVGPhBQCBYVUqeQC
 | `sketch/sketch.yaml` | Sketch configuration. |
 | `assets/index.html`, `assets/app.js`, `assets/style.css` | Browser-side status mirror (not an upload UI) — reflects stem mute state and finalized-mix playback. |
 | `demucs_server.py` *(Linux-side, separate from this App Lab project)* | Flask server that watches the USB drive for a new song, runs Demucs 4.1.0, and exposes `/status` and `/download/<stem>` endpoints. |
+| `usb_song_test.py` *(Linux-side)* | Small test/debug script — reads `/home/arduino/current_song.txt` and confirms whether the referenced song file actually exists on the USB drive. |
+| `usb_demucs_test.py` *(Linux-side)* | Small test/debug script — runs Demucs directly on a hardcoded USB song path (`/mnt/usb/sound.wav`) to verify Demucs works standalone, outside the full server pipeline. |
 
 <hr>
 
@@ -160,15 +164,15 @@ See [Side View](https://drive.google.com/file/d/1why-yrY0hsEtVmtkVGPhBQCBYVUqeQC
 
 1. Flash the sketch in `sketch/` to the STM32 side of the Uno Q via App Lab.
 2. Set up the Python virtual environment on the Linux side and install the Demucs server's dependencies:
-```bash
+   ```bash
    python3 -m venv demucs-env
    source demucs-env/bin/activate
    pip install -r requirements.txt
-```
+   ```
 3. Run the Demucs server:
-```bash
+   ```bash
    python demucs_server.py
-```
+   ```
 4. Load and run this App Lab project (installs `python/requirements.txt` automatically).
 5. Insert a USB flash drive with a song — separation starts automatically. Use the buttons to mute/unmute stems, press Finalize to build the mix, and Play/Pause to listen.
 
