@@ -1,0 +1,6 @@
+name: donenowithdepednenis
+description: Image classification in the browser using a web-based interface.
+ports: []
+bricks:
+- arduino:web_ui: {}
+icon: 👀

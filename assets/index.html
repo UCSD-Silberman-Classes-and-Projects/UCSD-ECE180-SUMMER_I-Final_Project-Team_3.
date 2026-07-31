@@ -1,0 +1,96 @@
+<!--
+SPDX-FileCopyrightText: Copyright (C) Arduino s.r.l. and/or its affiliated companies
+
+SPDX-License-Identifier: MPL-2.0
+-->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Separate stems</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1 class="arduino-text">Separate stems</h1>
+      </div>
+
+      <div class="main-content">
+        <div class="upload-section">
+          <div class="controls-section-left">
+            <div class="audio-container">
+              <div id="audioPreview" class="audio-preview">
+                <div class="upload-placeholder">
+                  <p class="drag-and-drop">Drag & drop a song here, or</p>
+                  <button class="drag-and-drop-button">Upload</button>
+                  <div>
+                    <span class="drag-and-drop-text border">File WAV or MP3</span
+                    ><span class="drag-and-drop-text">Max 20MB</span>
+                  </div>
+                  <input type="file" id="audioInput" accept=".wav,.mp3,audio/*" style="display: none" />
+                </div>
+              </div>
+              <div id="resultsContainer"></div>
+
+              <div id="finalMixSection" class="final-mix-section">
+                <h2 class="final-mix-title">Your Curated Mix</h2>
+                <p id="finalMixHint" class="final-mix-hint">
+                  Press the buttons on the board to mute/unmute stems, then press the Finalize button to lock in your mix.
+                </p>
+                <div id="finalMixResult" class="final-mix-result" style="display: none"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="controls-section-right">
+            <div class="controls-section" id="stemControlsPanel">
+              <div class="control-group">
+                <label>Physical Stem Controls</label>
+              </div>
+              <div class="stem-chips">
+                <div class="stem-chip" id="chip-vocal" data-stem="vocal">
+                  <span class="stem-chip-dot"></span>
+                  <span class="stem-chip-label">Vocal</span>
+                  <span class="stem-chip-status">Active</span>
+                </div>
+                <div class="stem-chip" id="chip-drums" data-stem="drums">
+                  <span class="stem-chip-dot"></span>
+                  <span class="stem-chip-label">Drums</span>
+                  <span class="stem-chip-status">Active</span>
+                </div>
+                <div class="stem-chip" id="chip-bass" data-stem="bass">
+                  <span class="stem-chip-dot"></span>
+                  <span class="stem-chip-label">Bass</span>
+                  <span class="stem-chip-status">Active</span>
+                </div>
+                <div class="stem-chip" id="chip-other" data-stem="other">
+                  <span class="stem-chip-dot"></span>
+                  <span class="stem-chip-label">Other</span>
+                  <span class="stem-chip-status">Active</span>
+                </div>
+              </div>
+              <p class="finalize-hint">Press the Finalize button (pin 6) on the board when ready.</p>
+            </div>
+
+            <div class="controls-section">
+              <div id="statusMessage" class="status-message"></div>
+              <div id="error-container" class="error-message" style="display: none"></div>
+            </div>
+
+            <div class="buttons">
+              <button id="uploadNewButton" class="btn-secondary" style="display: none">Change Song</button>
+              <button id="separateButton" class="btn-primary" style="display: none">Separate Stems ▶</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="libs/socket.io.min.js"></script>
+    <script src="libs/arduino.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

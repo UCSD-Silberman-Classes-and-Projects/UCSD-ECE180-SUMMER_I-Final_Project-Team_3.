@@ -1,0 +1,755 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (C) Arduino s.r.l. and/or its affiliated companies
+ *
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
+@import url('fonts/fonts.css');
+
+/*
+ * This CSS is used to center the various elements on the screen
+ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  line-height: 1.6;
+  color: #343a40;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 12px 0;
+}
+
+.arduino-text {
+  color: #008184;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  font-style: normal;
+  line-height: 170%;
+  letter-spacing: 2.4px;
+}
+
+.arduino-logo {
+  height: 24px;
+  width: auto;
+}
+
+.main-content {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/*
+ * Styles for specific components required by Stem Separation
+ */
+
+.upload-section {
+  display: flex;
+  gap: 32px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.audio-container {
+  flex: 2;
+}
+
+.audio-preview {
+  border: 1px dashed #7f8c8d;
+  border-radius: 4px;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.audio-preview:hover {
+  border-color: #00979d;
+  background-color: #f8f9fa;
+}
+
+.audio-preview.drag-over {
+  border-color: #008184;
+  background-color: rgba(0, 129, 132, 0.08);
+}
+
+.upload-placeholder {
+  text-align: center;
+  color: #6c757d;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.upload-placeholder p {
+  font-size: 1.1em;
+  margin: 0;
+}
+
+.file-selected {
+  text-align: center;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+}
+
+.file-name {
+  font-family: 'Open Sans';
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c353a;
+}
+
+.preview-audio {
+  width: 100%;
+  max-width: 400px;
+}
+
+.controls-section-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.controls-section-left {
+  background: #ecf1f1;
+  padding: 16px;
+  border-radius: 8px;
+  min-width: 750px;
+  width: 100%;
+}
+
+.controls-section {
+  flex: 1;
+  background: #ecf1f1;
+  padding: 16px;
+  border-radius: 8px;
+  min-width: 280px;
+}
+
+.control-group {
+  position: relative;
+}
+
+.slider-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.control-confidence {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.control-group label {
+  color: #2c353a;
+  font-family: 'Roboto Mono';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 170%;
+  letter-spacing: 1.2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#confidenceSlider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #dae3e3;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  margin: 20px 0 10px 0;
+}
+
+#confidenceSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #008184;
+  cursor: pointer;
+  position: relative;
+  bottom: 3px;
+  z-index: 2;
+}
+
+#confidenceSlider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #dae3e3;
+}
+
+#confidenceSlider::-moz-range-track {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #dae3e3;
+  border: none;
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
+}
+
+.slider-progress {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  height: 6px;
+  background: #008184;
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 1;
+  transition: width 0.1s ease;
+}
+
+.confidence-value-display {
+  position: absolute;
+  top: -3px;
+  transform: translateX(-50%);
+  color: #008184;
+  padding: 2px 6px;
+  pointer-events: none;
+  z-index: 3;
+  white-space: nowrap;
+  transition: left 0.1s ease;
+  font-family: 'Open Sans';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%;
+  letter-spacing: 0.12px;
+}
+
+.confidence-limits {
+  color: #2c353a;
+  font-family: 'Open Sans';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%;
+  letter-spacing: 0.12px;
+  margin-top: 10px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: #00979d;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #008a8f;
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #00979d;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-secondary:hover {
+  color: #008a8f;
+}
+
+.btn-tertiary {
+  border-radius: 6px;
+  border: 1px solid #c9d2d2;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 12px;
+  min-width: 50px;
+  height: 36px;
+}
+
+.confidence-input {
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: inherit;
+  color: inherit;
+  text-align: center;
+  width: 32px;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  cursor: text;
+}
+
+.confidence-input:focus {
+  background: rgba(0, 129, 132, 0.1);
+  border-radius: 2px;
+}
+
+.reset-icon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.reset-icon svg path {
+  fill: black;
+}
+
+.btn-tertiary:hover .reset-icon {
+  opacity: 1;
+}
+
+.status-message {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+  display: none;
+}
+
+.status-message.info {
+  background-color: rgba(0, 151, 157, 0.1);
+  color: #00979d;
+  border: 1px solid #00979d;
+}
+
+.status-message.success {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+  border: 1px solid #28a745;
+}
+
+.status-message.error {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
+.btn-icon-upload {
+  width: 16px;
+  height: 16px;
+}
+
+.drag-and-drop {
+  font-family: 'Open Sans';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%;
+  letter-spacing: 0.14px;
+  color: #2c353a;
+}
+
+.drag-and-drop-text {
+  font-family: 'Open Sans';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%;
+  letter-spacing: 0.12px;
+}
+
+.border {
+  padding-right: 8px;
+  margin-right: 8px;
+  border-right: 1px solid #c9d2d2;
+}
+
+.drag-and-drop-button {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 160%;
+  letter-spacing: 0.14px;
+  color: #008184;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.drag-and-drop-button .btn-icon-upload {
+  width: 16px;
+  height: 16px;
+}
+
+.drag-and-drop-button .btn-icon-upload path {
+  fill: #008184;
+}
+
+.reset-icon svg * {
+  fill: #6c757d !important;
+}
+
+.btn-tertiary:hover .reset-icon svg * {
+  fill: #2c353a !important;
+}
+
+.info-btn {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: #c9d2d2;
+  padding: 2px;
+  transition: background 0.2s;
+  position: relative;
+}
+
+.popover {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  margin-bottom: 5px;
+  display: none;
+  background: #fff;
+  padding: 16px 24px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  width: 300px;
+  color: #2c353a;
+  font-weight: 100;
+  font-family: 'Open Sans';
+  font-size: 12px;
+  line-height: 170%;
+  letter-spacing: 0.12px;
+}
+
+.popover.active {
+  display: block;
+}
+
+.info-icon-wrapper {
+  position: relative;
+}
+
+.popover-wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.error-message {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/*
+ * Stem result cards
+ */
+
+#resultsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.stem-card {
+  background: white;
+  border: 1px solid rgba(49, 51, 63, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stem-name {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #2c353a;
+  text-transform: capitalize;
+  margin: 0;
+}
+
+.stem-card audio {
+  width: 100%;
+}
+
+.stem-download {
+  align-self: flex-start;
+  font-family: 'Open Sans';
+  font-size: 13px;
+  font-weight: 600;
+  color: #008184;
+  text-decoration: none;
+}
+
+.stem-download:hover {
+  color: #008a8f;
+  text-decoration: underline;
+}
+
+/*
+ * Responsive design
+ */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  .upload-section {
+    flex-direction: column;
+  }
+
+  .arduino-text {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  .controls-section {
+    min-width: auto;
+  }
+
+  .controls-section-left {
+    min-width: 330px;
+  }
+
+  .arduino-logo {
+    height: 16px;
+    width: auto;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .controls-section-left {
+    min-width: 490px;
+  }
+}
+
+@media (max-width: 480px) {
+  .controls-section-left {
+    min-width: 170px;
+  }
+}
+
+/*
+ * Physical stem controls (button feedback)
+ */
+
+.stem-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.stem-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid #c9d2d2;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-family: 'Open Sans';
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.stem-chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #28a745;
+  transition: background 0.2s ease;
+}
+
+.stem-chip-label {
+  font-weight: 600;
+  color: #2c353a;
+  text-transform: capitalize;
+}
+
+.stem-chip-status {
+  color: #28a745;
+  font-weight: 400;
+}
+
+.stem-chip.muted {
+  border-color: #dc3545;
+  background: rgba(220, 53, 69, 0.05);
+}
+
+.stem-chip.muted .stem-chip-dot {
+  background: #dc3545;
+}
+
+.stem-chip.muted .stem-chip-status {
+  color: #dc3545;
+}
+
+.stem-card.muted {
+  opacity: 0.5;
+  border-color: #dc3545;
+}
+
+.stem-status-badge {
+  align-self: flex-start;
+  font-family: 'Open Sans';
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.stem-card.muted .stem-status-badge {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+/*
+ * Final mix section
+ */
+
+.final-mix-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(49, 51, 63, 0.1);
+}
+
+.final-mix-title {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2c353a;
+  margin-bottom: 8px;
+}
+
+.final-mix-hint {
+  font-family: 'Open Sans';
+  font-size: 13px;
+  color: #6c757d;
+}
+
+.final-mix-result {
+  margin-top: 12px;
+  background: white;
+  border: 1px solid rgba(49, 51, 63, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.final-mix-result.error {
+  border-color: #dc3545;
+  background: rgba(220, 53, 69, 0.05);
+}
+
+.final-mix-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.final-mix-row {
+  font-family: 'Open Sans';
+  font-size: 13px;
+  color: #2c353a;
+}
+
+.final-mix-note {
+  font-family: 'Open Sans';
+  font-size: 12px;
+  color: #6c757d;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.final-mix-audio {
+  width: 100%;
+}
+
+.finalize-hint {
+  font-family: 'Open Sans';
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 10px;
+}
